@@ -1,0 +1,2 @@
+describe Board do
+end
