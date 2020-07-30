@@ -14,6 +14,7 @@ class Board
 
     @grid.any? do |row|
       horizontal_wins.any? do |setup|
+        !row[setup[0]].empty? &&
         row[setup[0]] == row[setup[1]] &&
         row[setup[1]] == row[setup[2]] &&
         row[setup[2]] == row[setup[3]]
