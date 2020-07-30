@@ -72,5 +72,27 @@ describe Board do
         end
       end
     end
+
+    context 'vertically' do
+      context 'when four-in-a-row on left-most column' do
+        it 'returns true' do
+          # Arrange
+          board_arrangement = [
+            ['x', '', '', '', '', '', ''],
+            ['x', '', '', '', '', '', ''],
+            ['x', '', '', '', '', '', ''],
+            ['x', '', '', '', '', '', ''],
+            ['', '', '', '', '', '', ''],
+            ['', '', '', '', '', '', '']
+          ]
+
+          # Act
+          status = board.four_in_a_row?
+
+          # Assert
+          expect(status).to eq true
+        end
+      end
+    end
   end
 end
