@@ -19,47 +19,57 @@ describe Board do
   end
 
   describe 'four_in_a_row?' do
-    context 'when four in a row horizontally in first row' do
-      it 'returns true' do
-        # Arrange
-        board_arrangement = [
-          ['x', 'x', 'x', 'x', '', '', ''],
-          ['', '', '', '', '', '', ''],
-          ['', '', '', '', '', '', ''],
-          ['', '', '', '', '', '', ''],
-          ['', '', '', '', '', '', ''],
-          ['', '', '', '', '', '', ''],
-          ['', '', '', '', '', '', '']
-        ]
-        board.instance_variable_set(:@grid, board_arrangement)
-
+    context 'when grid is empty' do
+      it 'returns false' do
         # Act
-        status = board.four_in_a_row?  
-
+        status = board.four_in_a_row?
+        
         # Assert
-        expect(status).to eq true
+        expect(status).to be false
       end
     end
 
-    context 'when four in a row horizontally in second row' do
-      it 'returns true' do
-        # Arrange
-        board_arrangement = [
-          ['', '', '', '', '', '', ''],
-          ['x', 'x', 'x', 'x', '', '', ''],
-          ['', '', '', '', '', '', ''],
-          ['', '', '', '', '', '', ''],
-          ['', '', '', '', '', '', ''],
-          ['', '', '', '', '', '', ''],
-          ['', '', '', '', '', '', '']
-        ]
-        board.instance_variable_set(:@grid, board_arrangement)
+    context 'horizontally' do
+      context 'when four-in-a-row on top row' do
+        it 'returns true' do
+          # Arrange
+          board_arrangement = [
+            ['x', 'x', 'x', 'x', '', '', ''],
+            ['', '', '', '', '', '', ''],
+            ['', '', '', '', '', '', ''],
+            ['', '', '', '', '', '', ''],
+            ['', '', '', '', '', '', ''],
+            ['', '', '', '', '', '', ''],
+          ]
+          board.instance_variable_set(:@grid, board_arrangement)
 
-        # Act
-        status = board.four_in_a_row?  
+          # Act
+          status = board.four_in_a_row?  
 
-        # Assert
-        expect(status).to eq true
+          # Assert
+          expect(status).to eq true
+        end
+      end
+
+      context 'when four-in-a-row on bottom row' do
+        it 'returns true' do
+          # Arrange
+          board_arrangement = [
+            ['', '', '', '', '', '', ''],
+            ['', '', '', '', '', '', ''],
+            ['', '', '', '', '', '', ''],
+            ['', '', '', '', '', '', ''],
+            ['', '', '', '', '', '', ''],
+            ['x', 'x', 'x', 'x', '', '', '']
+          ]
+          board.instance_variable_set(:@grid, board_arrangement)
+
+          # Act
+          status = board.four_in_a_row?  
+
+          # Assert
+          expect(status).to eq true
+        end
       end
     end
   end
