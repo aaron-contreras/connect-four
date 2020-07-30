@@ -1,2 +1,3 @@
-# connect-four
-# connect-four
+# Connect-four!
+
+Built in TDD-style
