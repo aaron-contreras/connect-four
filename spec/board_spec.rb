@@ -87,6 +87,53 @@ describe Board do
             ['', '', '', '', '', '', ''],
             ['', '', '', '', '', '', '']
           ]
+          board.instance_variable_set(:@grid, board_arrangement)
+
+          # Act
+          status = board.four_in_a_row?
+
+          # Assert
+          expect(status).to eq true
+        end
+      end
+
+      context 'when four-in-a-row on right-most column' do
+        it 'returns true' do
+          # Arrange
+          board_arrangment = [
+            ['x', '', '', '', '', '', ''],
+            ['x', '', '', '', '', '', 'x'],
+            ['x', '', '', '', '', '', 'x'],
+            ['', '', '', '', '', '', 'x'],
+            ['', '', '', '', '', '', 'x'],
+            ['', '', '', '', '', '', '']
+          ]
+
+          board.instance_variable_set(:@grid, board_arrangment)
+
+          # Act
+          status = board.four_in_a_row?
+
+          # Assert
+          expect(status).to eq true
+        end
+      end
+    end
+
+    context 'diagonally' do
+      context 'when starting from top-left-corner' do
+        it 'returns true' do
+          # Arrange
+          board_arrangement = [
+            ['x', '', '', '', '', '', ''],
+            ['o', 'x', '', '', '', '', 'o'],
+            ['o', '', 'x', '', '', '', 'x'],
+            ['', '', '', 'x', '', '', 'x'],
+            ['', '', '', '', '', '', 'x'],
+            ['', '', '', '', '', '', '']
+          ]
+
+          board.instance_variable_set(:@grid, board_arrangement)
 
           # Act
           status = board.four_in_a_row?
