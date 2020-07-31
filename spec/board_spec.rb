@@ -1,4 +1,6 @@
 require_relative '../lib/board.rb'
+
+# rubocop: disable Metrics/BlockLength
 describe Board do
   subject(:board) { described_class.new }
 
@@ -23,7 +25,7 @@ describe Board do
       it 'returns false' do
         # Act
         status = board.four_in_a_row?
-        
+
         # Assert
         expect(status).to be false
       end
@@ -96,3 +98,5 @@ describe Board do
     end
   end
 end
+
+# rubocop: enable Metrics/BlockLength
