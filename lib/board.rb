@@ -41,9 +41,7 @@ class Board
     ]
 
     @grid.each.with_index do |row, row_index|
-      row.each_index do |column_index|
-        cell = @grid[row_index][column_index]
-
+      row.each.with_index do |cell, column_index|
         next if cell.empty?
 
         search_directions.each do |vertical_travel, horizontal_travel|
