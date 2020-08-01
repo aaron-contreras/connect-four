@@ -297,6 +297,92 @@ describe Board do
       end
     end
   end
+
+  describe '#place_disc' do
+    let(:player) { double('player', disc: 'A') }
+
+    context 'when grid is empty' do
+      it 'places disc in bottom row' do
+        # Arrange
+        changed_board = [
+          ['', '', '', '', '', '', ''],
+          ['', '', '', '', '', '', ''],
+          ['', '', '', '', '', '', ''],
+          ['', '', '', '', '', '', ''],
+          ['', '', '', '', '', '', ''],
+          ['A', '', '', '', '', '', '']
+        ]
+
+        # Act
+        board.place_disc(player.disc, 0)
+
+        # Assert
+        expect(board.grid).to eq changed_board
+      end
+    end
+
+    context 'when grid has a disc on selected column' do
+      it 'places disc above it' do
+        # Arrange
+        starting_board = [
+          ['', '', '', '', '', '', ''],
+          ['', '', '', '', '', '', ''],
+          ['', '', '', '', '', '', ''],
+          ['', '', '', '', '', '', ''],
+          ['', '', '', '', '', '', ''],
+          ['A', '', '', '', '', '', '']
+        ]
+
+        changed_board = [
+          ['', '', '', '', '', '', ''],
+          ['', '', '', '', '', '', ''],
+          ['', '', '', '', '', '', ''],
+          ['', '', '', '', '', '', ''],
+          ['A', '', '', '', '', '', ''],
+          ['A', '', '', '', '', '', '']
+        ]
+
+        board.instance_variable_set(:@grid, starting_board)
+
+        # Act
+        board.place_disc(player.disc, 0)
+
+        # Assert
+        expect(board.grid).to eq changed_board
+      end
+    end
+
+    context 'when only a single empty cell is left' do
+      it 'fills up column by placing disc' do
+        # Arrange
+        starting_board = [
+          ['', '', '', '', '', '', ''],
+          ['', 'A', '', '', '', '', ''],
+          ['', 'A', '', '', '', '', ''],
+          ['', 'A', '', '', '', '', ''],
+          ['', 'A', '', '', '', '', ''],
+          ['', 'A', '', '', '', '', '']
+        ]
+
+        changed_board = [
+          ['', 'A', '', '', '', '', ''],
+          ['', 'A', '', '', '', '', ''],
+          ['', 'A', '', '', '', '', ''],
+          ['', 'A', '', '', '', '', ''],
+          ['', 'A', '', '', '', '', ''],
+          ['', 'A', '', '', '', '', '']
+        ]
+
+        board.instance_variable_set(:@grid, starting_board)
+
+        # Act
+        board.place_disc(player.disc, 1)
+
+        # Assert
+        expect(board.grid).to eq changed_board
+      end
+    end
+  end
 end
 
 # rubocop: enable Metrics/BlockLength

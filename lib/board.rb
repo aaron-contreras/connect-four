@@ -8,42 +8,15 @@ class Board
   end
 
   def four_in_a_row?
-    search_directions = [
-      [-1, -1],
-      [-1, 1],
-      [1, -1],
-      [1, 1]
-    ]
-
-    # @grid.each.with_index do |row, row_index|
-    #   row.each.with_index do |cell, column_index|
-    #     # No need to search if the cell is empty
-    #     next if cell.empty?
-
-    #     search_directions.each do |vertical_travel, horizontal_travel|
-    #       neighbor_indexes = [
-    #         [row_index + vertical_travel, column_index + horizontal_travel],
-    #         [row_index + 2 * vertical_travel, column_index + 2 * horizontal_travel],
-    #         [row_index + 3 * vertical_travel, column_index + 3 * horizontal_travel]
-    #       ]
-
-    #       # Move is out-of-bounds
-    #       next unless neighbor_indexes.all? do |r, c|
-    #                     r.between?(0, 5) && c.between?(0, 6)
-    #                   end
-
-    #       neighbor_cells = [
-    #         @grid[neighbor_indexes[0].first][neighbor_indexes[0].last],
-    #         @grid[neighbor_indexes[1].first][neighbor_indexes[1].last],
-    #         @grid[neighbor_indexes[2].first][neighbor_indexes[2].last]
-    #       ]
-
-    #       return true if neighbor_cells.all? { |neighbor| cell == neighbor }
-    #     end
-    #   end
-    # end
-
     horizontal_win? || vertical_win? || diagonal_win?
+  end
+
+  def place_disc(disc, column)
+    empty_cells_in_column = @grid.transpose[column].count(&:empty?)
+
+    deepest_cell = 5 - (6 - empty_cells_in_column)
+
+    @grid[deepest_cell][column] = disc
   end
 
   private
