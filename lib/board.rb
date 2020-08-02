@@ -24,7 +24,8 @@ class Board
   def horizontal_win?
     @grid.each_index.any? do |row_index|
       perpendicular_wins.any? do |coordinates|
-        line = neighbors(@grid, row_index, coordinates)
+        line = perpendicular_neighbors(@grid, row_index, coordinates)
+
         !line.first.empty? && line.all? { |cell| line.first == cell }
       end
     end
@@ -33,7 +34,7 @@ class Board
   def vertical_win?
     @grid.transpose.each_index.any? do |column_index|
       perpendicular_wins.any? do |coordinates|
-        line = neighbors(@grid.transpose, column_index, coordinates)
+        line = perpendicular_neighbors(@grid.transpose, column_index, coordinates)
 
         !line.first.empty? && line.all? { |cell| line.first == cell }
       end
@@ -41,33 +42,22 @@ class Board
   end
 
   def diagonal_win?
-    search_directions = [[-1, -1], [-1, 1], [1, -1], [1, 1]]
-
     @grid.each.with_index do |row, row_index|
       row.each.with_index do |cell, column_index|
         # No need to search if the cell is empty
         next if cell.empty?
 
-        search_directions.each do |vertical_travel, horizontal_travel|
-          neighbor_indexes = [
-            [row_index + vertical_travel, column_index + horizontal_travel],
-            [row_index + 2 * vertical_travel, column_index + 2 * horizontal_travel],
-            [row_index + 3 * vertical_travel, column_index + 3 * horizontal_travel]
+        diagonal_search_directions.each do |y_travel, x_travel|
+          neighbor_coords = [
+            [row_index + y_travel, column_index + x_travel],
+            [row_index + 2 * y_travel, column_index + 2 * x_travel],
+            [row_index + 3 * y_travel, column_index + 3 * x_travel]
           ]
 
-          # Move is out-of-bounds
-          next unless neighbor_indexes.all? do |r, c|
-                        r.between?(0, 5) && c.between?(0, 6)
-                      end
-
-          neighbor_cells = [
-            @grid[neighbor_indexes[0].first][neighbor_indexes[0].last],
-            @grid[neighbor_indexes[1].first][neighbor_indexes[1].last],
-            @grid[neighbor_indexes[2].first][neighbor_indexes[2].last]
-          ]
+          next unless neighbors_are_inbound?(neighbor_coords)
 
           # Four-in-a-row found
-          return true if neighbor_cells.all? { |neighbor| cell == neighbor }
+          return true if diagonal_neighbors(neighbor_coords).all? { |neighbor| cell == neighbor }
         end
       end
     end
@@ -76,7 +66,7 @@ class Board
     false
   end
 
-  def neighbors(grid_setup, section_index, coordinates)
+  def perpendicular_neighbors(grid_setup, section_index, coordinates)
     [
       grid_setup[section_index][coordinates[0]],
       grid_setup[section_index][coordinates[1]],
@@ -86,11 +76,21 @@ class Board
   end
 
   def perpendicular_wins
-    [
-      [0, 1, 2, 3],
-      [1, 2, 3, 4],
-      [2, 3, 4, 5],
-      [3, 4, 5, 6]
-    ]
+    [[0, 1, 2, 3], [1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6]]
+  end
+
+  def diagonal_search_directions
+    [[-1, -1], [-1, 1], [1, -1], [1, 1]]
+  end
+
+  def diagonal_neighbors(coordinates)
+    coordinates.map do |coordinate|
+      @grid[coordinate[0]][coordinate[1]]
+    end
+  end
+
+  def neighbors_are_inbound?(neighbor_coords)
+    farthest = neighbor_coords.last
+    (farthest[0]).between?(0, 5) && (farthest[1]).between?(0, 6)
   end
 end

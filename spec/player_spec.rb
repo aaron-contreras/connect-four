@@ -2,7 +2,7 @@
 
 require_relative '../lib/player.rb'
 describe Player do
-  let(:player) { described_class.new('Aaron', 'A')}
+  let(:player) { described_class.new('Aaron', 'A') }
 
   it 'should have a name' do
     expect(player).to have_attributes(name: 'Aaron')
