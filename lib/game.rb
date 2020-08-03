@@ -20,6 +20,18 @@ class Game
     @active_player = @active_player == @players[0] ? @players[1] : @players[0]
   end
 
+  def play_turns
+    until @board.four_in_a_row?
+      @board.place_disc(@active_player.disc, obtain_move)
+
+      switch_turns
+    end
+  end
+
+  def obtain_move
+
+  end
+
   private
 
   def ask_for_player_name(player_number) 

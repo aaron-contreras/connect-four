@@ -65,7 +65,7 @@ describe Game do
         expect(active_player).to eq player_two
       end
     end
-    
+
     context 'when player 2 is the active player' do
       it 'makes player 1 the active player' do
         # Arrange
@@ -79,6 +79,41 @@ describe Game do
         active_player = game.instance_variable_get(:@active_player)
         expect(active_player).to eq player_one
       end
+    end
+  end
+
+  describe '#play_turns' do
+    let(:player_one) { double('player 1', name: 'Aaron', disc: 'A') }
+    let(:player_two) { double('player 2', name: 'Chad', disc: 'C') }
+
+    it "loop until there's a winner" do
+      # Arrange
+      allow(game).to receive(:obtain_move).and_return(0, 1, 0, 1, 0, 1, 0)
+
+      game.instance_variable_set(:@players, [player_one, player_two])
+      game.instance_variable_set(:@active_player, player_one)
+
+      # Assert
+      expect(game).to receive(:obtain_move).exactly(7).times
+
+      # Act
+      game.play_turns
+    end
+
+    it "switches player's turns after every move" do
+      # Arrange
+      allow(game).to receive(:obtain_move).and_return(0, 1, 0, 1, 0, 1, 0)
+
+      game.instance_variable_set(:@players, [player_one, player_two])
+      game.instance_variable_set(:@active_player, player_one)
+
+      # Act
+      game.play_turns
+
+      # Assert
+      active_player = game.instance_variable_get(:@active_player)
+
+      expect(active_player).to eq player_two
     end
   end
 end
