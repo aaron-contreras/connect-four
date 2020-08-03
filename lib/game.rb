@@ -6,9 +6,18 @@ class Game
     @board = Board.new
   end
 
-  def start_game
-    create_players
-    play_turns
+  def create_players
+    ask_for_player_name(1)
+    player_one = Player.new(obtain_name, 'A')
+    ask_for_player_name(2)
+    player_two = Player.new(obtain_name, 'B')
+
+    @players = [player_one, player_two]
+    @active_player = @players.sample
+  end
+
+  def switch_turns
+    @active_player = @active_player == @players[0] ? @players[1] : @players[0]
   end
 
   private
@@ -20,25 +29,11 @@ class Game
   def obtain_name
     name = gets.chomp
 
-    while name.empty? || name.match?(/\d+/)
+    while name.empty? || name.strip.empty? || name.match?(/\d+/)
       print 'Please enter a valid name'
       name = gets.chomp
     end      
 
     name
-  end
-
-  def create_players
-    ask_for_player_name(1)
-    player_one = Player.new(obtain_name, 'A')
-    ask_for_player_name(2)
-    player_two = Player.new(obtain_name, 'B')
-
-    @players = [player_one, player_two]
-    @current_player = @players.sample
-  end
-
-  def play_turns
-
   end
 end
