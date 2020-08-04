@@ -88,6 +88,8 @@ describe Game do
 
     it "loop until there's a winner" do
       # Arrange
+      allow(game).to receive(:puts)
+      allow(game).to receive(:print)
       allow(game).to receive(:obtain_move).and_return(0, 1, 0, 1, 0, 1, 0)
 
       game.instance_variable_set(:@players, [player_one, player_two])
@@ -102,6 +104,8 @@ describe Game do
 
     it "switches player's turns after every move" do
       # Arrange
+      allow(game).to receive(:print)
+      allow(game).to receive(:puts)
       allow(game).to receive(:obtain_move).and_return(0, 1, 0, 1, 0, 1, 0)
 
       game.instance_variable_set(:@players, [player_one, player_two])
@@ -113,7 +117,43 @@ describe Game do
       # Assert
       active_player = game.instance_variable_get(:@active_player)
 
-      expect(active_player).to eq player_two
+      expect(active_player).to eq player_one
+    end
+  end
+
+  describe '#game_over_message' do
+    context 'when the game is a draw' do
+      it 'shows the draw message' do
+        # Arrange
+        double('board', four_in_a_row?: false)
+
+        draw_message = "It's a draw!"
+
+        # Act
+        actual_message = game.game_over_message
+
+        # Assert
+        expect(actual_message).to eq draw_message
+      end
+    end
+
+    context 'when a player won' do
+      it 'gives him a congrats message' do
+        # Arrange
+        board = double('board', four_in_a_row?: true)
+        game.instance_variable_set(:@board, board)
+
+        player = double('player1', name: 'Aaron')
+        game.instance_variable_set(:@active_player, player)
+
+        win_message = 'Aaron won, great job!'
+
+        # Act
+        actual_message = game.game_over_message
+
+        # Assert
+        expect(actual_message).to eq win_message
+      end
     end
   end
 end
