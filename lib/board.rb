@@ -19,14 +19,31 @@ class Board
     @grid[deepest_cell][column] = disc
   end
 
+  def to_s
+    <<~BOARD
+       - - - - - - -
+      |#{@grid[0][0]} #{@grid[0][1]} #{@grid[0][3]} #{@grid[0][4]} #{@grid[0][5]} #{@grid[0][6]}         |
+      |#{@grid[1][0]} #{@grid[1][1]} #{@grid[1][3]} #{@grid[1][4]} #{@grid[1][5]} #{@grid[1][6]}         |
+      |#{@grid[2][0]} #{@grid[2][1]} #{@grid[2][3]} #{@grid[2][4]} #{@grid[2][5]} #{@grid[2][6]}         |
+      |#{@grid[3][0]} #{@grid[3][1]} #{@grid[3][3]} #{@grid[3][4]} #{@grid[3][5]} #{@grid[3][6]}         |
+      |#{@grid[4][0]} #{@grid[4][1]} #{@grid[4][3]} #{@grid[4][4]} #{@grid[4][5]} #{@grid[4][6]}         |
+      |#{@grid[5][0]} #{@grid[5][1]} #{@grid[5][3]} #{@grid[5][4]} #{@grid[5][5]} #{@grid[5][6]}         |
+    BOARD
+  end
+
   private
 
-  def horizontal_win?
-    @grid.each_index.any? do |row_index|
-      perpendicular_wins.any? do |coordinates|
-        line = perpendicular_neighbors(@grid, row_index, coordinates)
+  def cell(row, column)
+    @grid[row][column] if row.between?(0, 5) && column.between?(0, 6)
+  end
 
-        !line.first.empty? && line.all? { |cell| line.first == cell }
+  def horizontal_win?
+    @grid.each.with_index.any? do |row, r_index|
+      row.each.with_index.any? do |current_cell, c_index|
+        current_cell != '' &&
+          current_cell == cell(r_index, c_index + 1) &&
+          current_cell == cell(r_index, c_index + 2) &&
+          current_cell == cell(r_index, c_index + 3)
       end
     end
   end
