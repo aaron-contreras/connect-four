@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative './board.rb'
+require_relative './player.rb'
 # A Connect-4 Game
 class Game
   def initialize
@@ -49,7 +51,7 @@ class Game
   private
 
   def ask_for_player_name(player_number)
-    print "What is #{player_number}'s name? "
+    print "What is player #{player_number}'s name? "
   end
 
   def obtain_name
@@ -64,17 +66,17 @@ class Game
   end
 
   def ask_for_player_move
-    print "#{@active_player.name} Where would you like to drop your disc? "
+    print "#{@active_player.name}, where would you like to drop your disc? "
   end
 
   def obtain_move
-    move = gets.chomp.strip
+    move = gets.chomp.upcase.strip
 
-    until move.match?(/[a-gA-G]/)
+    until move.match?(/[A-G]/)
       print 'Please enter a valid column: '
-      move = gets.chomp.strip
+      move = gets.chomp.upcase.strip
     end
 
-    move
+    move.ord - 65
   end
 end
