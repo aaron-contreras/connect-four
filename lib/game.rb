@@ -70,13 +70,13 @@ class Game
   end
 
   def obtain_move
-    move = gets.chomp.upcase.strip
+    move = gets.upcase.strip.ord - 'A'.ord
 
-    until move.match?(/[A-G]/)
-      print 'Please enter a valid column: '
-      move = gets.chomp.upcase.strip
+    until move.between?(0, 6) && @board.column_not_full?(move)
+      print 'Enter a valid column to drop your disc on: '
+      move = gets.upcase.strip.ord - 'A'.ord
     end
 
-    move.ord - 65
+    move
   end
 end
