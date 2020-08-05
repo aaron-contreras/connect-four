@@ -26,7 +26,7 @@ class Game
     if @board.four_in_a_row?
       "\e[32m#{@active_player.name} won, great job!\e[0m"
     else
-      "It's a draw!"
+      "\e[33mIt's a draw!\e[0m"
     end
   end
 
