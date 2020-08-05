@@ -127,7 +127,7 @@ describe Game do
         # Arrange
         double('board', four_in_a_row?: false)
 
-        draw_message = "It's a draw!"
+        draw_message = "\e[33mIt's a draw!\e[0m"
 
         # Act
         actual_message = game.game_over_message
@@ -146,7 +146,7 @@ describe Game do
         player = double('player1', name: 'Aaron')
         game.instance_variable_set(:@active_player, player)
 
-        win_message = 'Aaron won, great job!'
+        win_message = "\e[32mAaron won, great job!\e[0m"
 
         # Act
         actual_message = game.game_over_message
