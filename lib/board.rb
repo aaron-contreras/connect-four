@@ -4,7 +4,7 @@
 class Board
   attr_reader :grid
   def initialize
-    @grid = Array.new(6) { Array.new(7) { ' ' } }
+    @grid = Array.new(6) { Array.new(7) { '' } }
   end
 
   def four_in_a_row?
@@ -12,7 +12,7 @@ class Board
   end
 
   def place_disc(disc, column)
-    empty_cells_in_column = @grid.transpose[column].count { |cell| cell == ' ' }
+    empty_cells_in_column = @grid.transpose[column].count { |cell| cell == '' }
 
     deepest_cell = 5 - (6 - empty_cells_in_column)
 
@@ -20,7 +20,33 @@ class Board
   end
 
   def column_not_full?(column)
-    @grid.transpose[column].any? { |cell| cell == ' ' }
+    @grid.transpose[column].any? { |cell| cell == '' }
+  end
+
+  def to_s
+    square = "\e[47m  \e[0m"
+
+    <<~BOARD
+
+        #{square * 20}
+        #{square}|==================================|#{square}
+        #{square}| \e[32m\u24b6    \u24b7    \u24b8    \u24b9    \u24ba    \u24bb    \u24bc\e[0m  |#{square}
+        #{square}|==================================|#{square}
+        #{square}|#{formatted_row(0)}|#{square}
+        #{square}|----+----+----+----+----+----+----|#{square}
+        #{square}|#{formatted_row(1)}|#{square}
+        #{square}|----+----+----+----+----+----+----|#{square}
+        #{square}|#{formatted_row(2)}|#{square}
+        #{square}|----+----+----+----+----+----+----|#{square}
+        #{square}|#{formatted_row(3)}|#{square}
+        #{square}|----+----+----+----+----+----+----|#{square}
+        #{square}|#{formatted_row(4)}|#{square}
+        #{square}|----+----+----+----+----+----+----|#{square}
+        #{square}|#{formatted_row(5)}|#{square}
+        #{square}|----+----+----+----+----+----+----|#{square}
+      #{square}#{square}#{square}                                #{square}#{square}#{square}
+
+    BOARD
   end
 
   private
@@ -38,7 +64,7 @@ class Board
           cell(r_index, c_index + 3)
         ]
 
-        current_cell != ' ' && neighbors.all? { |neighbor| current_cell == neighbor }
+        current_cell != '' && neighbors.all? { |neighbor| current_cell == neighbor }
       end
     end
   end
@@ -52,7 +78,7 @@ class Board
           cell(r_index + 3, c_index)
         ]
 
-        current_cell != ' ' && neighbors.all? { |neighbor| current_cell == neighbor }
+        current_cell != '' && neighbors.all? { |neighbor| current_cell == neighbor }
       end
     end
   end
@@ -71,9 +97,15 @@ class Board
             cell(r_index + 3 * r_travel, c_index + 3 * c_travel)
           ]
 
-          current_cell != ' ' && neighbors.all? { |neighbor| current_cell == neighbor }
+          current_cell != '' && neighbors.all? { |neighbor| current_cell == neighbor }
         end
       end
     end
+  end
+
+  def formatted_row(row)
+    row = @grid[row].map { |cell| cell == '' ? '  ' : cell }
+
+    " #{row[0]} | #{row[1]} | #{row[2]} | #{row[3]} | #{row[4]} | #{row[5]} | #{row[6]} "
   end
 end
