@@ -24,7 +24,7 @@ class Game
 
   def game_over_message
     if @board.four_in_a_row?
-      "#{@active_player.name} won, great job!"
+      "\e[32m#{@active_player.name} won, great job!\e[0m"
     else
       "It's a draw!"
     end
@@ -40,6 +40,8 @@ class Game
 
       @board.place_disc(@active_player.disc, move)
 
+      print "\e[2J\e[H"
+
       puts @board
 
       break if @board.four_in_a_row?
@@ -51,14 +53,15 @@ class Game
   private
 
   def ask_for_player_name(player_number)
-    print "What is player #{player_number}'s name? "
+    color = player_number == 1 ? "\e[31m" : "\e[34m"
+    print "What is #{color}player #{player_number}'s\e[0m name? "
   end
 
   def obtain_name
     name = gets.chomp.strip
 
-    while name.empty? || name.match?(/\d+/)
-      print 'Please enter a valid name: '
+    while name.empty? || name.match?(/[^A-Za-z\s]/)
+      print "\e[31mPlease enter a valid name: \e[0m"
       name = gets.chomp.strip
     end
 
@@ -66,14 +69,14 @@ class Game
   end
 
   def ask_for_player_move
-    print "#{@active_player.name}, where would you like to drop your disc? "
+    print "#{@active_player.disc} #{@active_player.name}, where would you like to drop your disc? "
   end
 
   def obtain_move
     move = gets.upcase.strip.ord - 'A'.ord
 
     until move.between?(0, 6) && @board.column_not_full?(move)
-      print 'Enter a valid column to drop your disc on: '
+      print "\e[1A\e[K\e[31mEnter a valid column to drop your disc on: \e[0m"
       move = gets.upcase.strip.ord - 'A'.ord
     end
 
