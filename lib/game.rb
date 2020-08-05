@@ -10,9 +10,9 @@ class Game
 
   def create_players
     ask_for_player_name(1)
-    player_one = Player.new(obtain_name, 'A')
+    player_one = Player.new(obtain_name, "\u{1f534}")
     ask_for_player_name(2)
-    player_two = Player.new(obtain_name, 'B')
+    player_two = Player.new(obtain_name, "\u{1f535}")
 
     @players = [player_one, player_two]
     @active_player = @players.sample
