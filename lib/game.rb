@@ -73,13 +73,14 @@ class Game
   end
 
   def obtain_move
-    move = gets.upcase.strip.ord - 'A'.ord
+    loop do
+      move = gets.upcase.strip
 
-    until move.between?(0, 6) && @board.column_not_full?(move)
+      break move.ord - 65 if !move.empty? &&
+                             move.between?('A', 'G') &&
+                             @board.column_not_full?(move.ord - 65)
+
       print "\e[1A\e[K\e[31mEnter a valid column to drop your disc on: \e[0m"
-      move = gets.upcase.strip.ord - 'A'.ord
     end
-
-    move
   end
 end
