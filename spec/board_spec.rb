@@ -276,6 +276,7 @@ describe Board do
           expect(setup).to eq true
         end
       end
+
       context 'when incomplete diagonals formed' do
         it 'returns false' do
           # Arrange
@@ -383,6 +384,50 @@ describe Board do
         # Assert
         expect(board.grid).to eq changed_board
       end
+    end
+  end
+
+  describe '#to_s' do
+    it 'returns a nicely formatted board' do
+      # Arrange
+      player1 = "\u{1f534}"
+      player2 = "\u{1f535}"
+      square = "\e[47m  \e[0m"
+      board_arrangement = [
+        ['', player1, '', '', '', '', ''],
+        ['', player1, '', '', '', '', ''],
+        ['', player1, '', '', player1, '', player1],
+        ['', player2, '', '', player2, player2, player2],
+        ['', player2, player1, '', player2, player1, player1],
+        ['', player2, player2, player2, player2, player1, player1]
+      ]
+      board.instance_variable_set(:@grid, board_arrangement)
+
+      expected_output = <<~HEREDOC
+          #{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}
+          #{square}|==================================|#{square}
+          #{square}| \e[32m\u24b6    \u24b7    \u24b8    \u24b9    \u24ba    \u24bb    \u24bc\e[0m  |#{square}
+          #{square}|==================================|#{square}
+          #{square}|    | #{player1} |    |    |    |    |    |#{square}
+          #{square}|----+----+----+----+----+----+----|#{square}
+          #{square}|    | #{player1} |    |    |    |    |    |#{square}
+          #{square}|----+----+----+----+----+----+----|#{square}
+          #{square}|    | #{player1} |    |    | #{player1} |    | #{player1} |#{square}
+          #{square}|----+----+----+----+----+----+----|#{square}
+          #{square}|    | #{player2} |    |    | #{player2} | #{player2} | #{player2} |#{square}
+          #{square}|----+----+----+----+----+----+----|#{square}
+          #{square}|    | #{player2} | #{player1} |    | #{player2} | #{player1} | #{player1} |#{square}
+          #{square}|----+----+----+----+----+----+----|#{square}
+          #{square}|    | #{player2} | #{player2} | #{player2} | #{player2} | #{player1} | #{player1} |#{square}
+          #{square}|----+----+----+----+----+----+----|#{square}
+        #{square}#{square}#{square}                                #{square}#{square}#{square}
+      HEREDOC
+
+      # Act
+      actual_output = board.to_s
+
+      # Assert
+      expect(actual_output).to eq expected_output
     end
   end
 end
