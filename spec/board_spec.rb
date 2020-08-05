@@ -404,6 +404,7 @@ describe Board do
       board.instance_variable_set(:@grid, board_arrangement)
 
       expected_output = <<~HEREDOC
+
           #{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}
           #{square}|==================================|#{square}
           #{square}| \e[32m\u24b6    \u24b7    \u24b8    \u24b9    \u24ba    \u24bb    \u24bc\e[0m  |#{square}
@@ -421,6 +422,7 @@ describe Board do
           #{square}|    | #{player2} | #{player2} | #{player2} | #{player2} | #{player1} | #{player1} |#{square}
           #{square}|----+----+----+----+----+----+----|#{square}
         #{square}#{square}#{square}                                #{square}#{square}#{square}
+
       HEREDOC
 
       # Act
