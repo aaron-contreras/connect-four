@@ -11,7 +11,11 @@ class Board
   end
 
   def four_in_a_row?
-    horizontal_win? || vertical_win? || diagonal_win?
+    perpendicular_win?(:horizontally) || perpendicular_win?(:vertically) || diagonal_win?
+  end
+
+  def tie?
+    !four_in_a_row? && @grid.flatten.none? { |cell| cell == '' }
   end
 
   def place_disc(disc, column)
@@ -24,10 +28,6 @@ class Board
 
   def column_not_full?(column)
     @grid.transpose[column].any? { |cell| cell == '' }
-  end
-
-  def tie?
-    !four_in_a_row? && @grid.flatten.none? { |cell| cell == '' }
   end
 
   def to_s
@@ -61,28 +61,18 @@ class Board
     @grid[row][column] if row.between?(0, 5) && column.between?(0, 6)
   end
 
-  def horizontal_win?
-    @grid.each.with_index.any? do |row, r_index|
-      row.each.with_index.any? do |current_cell, c_index|
-        neighbors = [
-          cell(r_index, c_index + 1),
-          cell(r_index, c_index + 2),
-          cell(r_index, c_index + 3)
-        ]
-
-        current_cell != '' && neighbors.all? { |neighbor| current_cell == neighbor }
-      end
+  def find_neighbors(direction, row_index, column_index)
+    if direction == :horizontally
+      [cell(row_index, column_index + 1), cell(row_index, column_index + 2), cell(row_index, column_index + 3)]
+    else
+      [cell(row_index + 1, column_index), cell(row_index + 2, column_index), cell(row_index + 3, column_index)]
     end
   end
 
-  def vertical_win?
-    @grid.each.with_index.any? do |row, r_index|
-      row.each.with_index.any? do |current_cell, c_index|
-        neighbors = [
-          cell(r_index + 1, c_index),
-          cell(r_index + 2, c_index),
-          cell(r_index + 3, c_index)
-        ]
+  def perpendicular_win?(direction)
+    @grid.each_with_index.any? do |row, row_index|
+      row.each.with_index.any? do |current_cell, column_index|
+        neighbors = find_neighbors(direction, row_index, column_index)
 
         current_cell != '' && neighbors.all? { |neighbor| current_cell == neighbor }
       end
@@ -90,13 +80,13 @@ class Board
   end
 
   def diagonal_win?
-    @grid.each.with_index.any? do |row, r_index|
-      row.each.with_index.any? do |current_cell, c_index|
-        DIAGONAL_SEARCH_DIRECTIONS.any? do |r_travel, c_travel|
+    @grid.each.with_index.any? do |row, row_index|
+      row.each.with_index.any? do |current_cell, column_index|
+        DIAGONAL_SEARCH_DIRECTIONS.any? do |row_travel, column_travel|
           neighbors = [
-            cell(r_index + r_travel, c_index + c_travel),
-            cell(r_index + 2 * r_travel, c_index + 2 * c_travel),
-            cell(r_index + 3 * r_travel, c_index + 3 * c_travel)
+            cell(row_index + row_travel, column_index + column_travel),
+            cell(row_index + 2 * row_travel, column_index + 2 * column_travel),
+            cell(row_index + 3 * row_travel, column_index + 3 * column_travel)
           ]
 
           current_cell != '' && neighbors.all? { |neighbor| current_cell == neighbor }
