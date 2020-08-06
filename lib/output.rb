@@ -11,6 +11,8 @@ module Output
     blue: "\e[34m"
   }
 
+  CLEAR_FORMATTING = "\e[0m"
+
   def clear_screen
     print "\e[2J\e[H"
   end
