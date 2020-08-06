@@ -3,6 +3,9 @@
 # Represents the 7 x 6 board used in the game
 class Board
   attr_reader :grid
+
+  DIAGONAL_SEARCH_DIRECTIONS = [[-1, -1], [-1, 1], [1, -1], [1, 1]].freeze
+
   def initialize
     @grid = Array.new(6) { Array.new(7) { '' } }
   end
@@ -23,9 +26,12 @@ class Board
     @grid.transpose[column].any? { |cell| cell == '' }
   end
 
+  def tie?
+    !four_in_a_row? && @grid.flatten.none? { |cell| cell == '' }
+  end
+
   def to_s
     square = "\e[47m  \e[0m"
-
     <<~BOARD
 
         #{square * 20}
@@ -83,14 +89,10 @@ class Board
     end
   end
 
-  def diagonal_search_directions
-    [[-1, -1], [-1, 1], [1, -1], [1, 1]]
-  end
-
   def diagonal_win?
     @grid.each.with_index.any? do |row, r_index|
       row.each.with_index.any? do |current_cell, c_index|
-        diagonal_search_directions.any? do |r_travel, c_travel|
+        DIAGONAL_SEARCH_DIRECTIONS.any? do |r_travel, c_travel|
           neighbors = [
             cell(r_index + r_travel, c_index + c_travel),
             cell(r_index + 2 * r_travel, c_index + 2 * c_travel),
