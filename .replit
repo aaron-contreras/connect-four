@@ -1,0 +1,2 @@
+language = "bash"
+run = "ruby ./connect_four.rb"
