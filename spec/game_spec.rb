@@ -10,10 +10,10 @@ describe Game do
     it 'asks for a name until valid' do
       # Arrange
       allow(game).to receive(:print)
-      allow(game).to receive(:gets).and_return('A1', '  ', 'Aaron', 'Chad')
+      allow(game).to receive(:gets).and_return('---(-=     ', 'Aaron contreras', '(pizzaboy34)', 'A1', '', 'Aaron', 'Chad')
 
       # Assert
-      expect(game).to receive(:gets).exactly(4).times
+      expect(game).to receive(:gets).exactly(6).times
 
       # Act
       game.create_players
@@ -86,20 +86,22 @@ describe Game do
     let(:player_one) { double('player 1', name: 'Aaron', disc: 'A') }
     let(:player_two) { double('player 2', name: 'Chad', disc: 'C') }
 
-    it "loop until there's a winner" do
-      # Arrange
-      allow(game).to receive(:puts)
-      allow(game).to receive(:print)
-      allow(game).to receive(:obtain_move).and_return(0, 1, 0, 1, 0, 1, 0)
+    context 'when game ends in a win' do
+      it "loop until there's a winner" do
+        # Arrange
+        allow(game).to receive(:puts)
+        allow(game).to receive(:print)
+        allow(game).to receive(:obtain_move).and_return(0, 1, 0, 1, 0, 1, 0)
 
-      game.instance_variable_set(:@players, [player_one, player_two])
-      game.instance_variable_set(:@active_player, player_one)
+        game.instance_variable_set(:@players, [player_one, player_two])
+        game.instance_variable_set(:@active_player, player_one)
 
-      # Assert
-      expect(game).to receive(:obtain_move).exactly(7).times
+        # Assert
+        expect(game).to receive(:obtain_move).exactly(7).times
 
-      # Act
-      game.play_turns
+        # Act
+        game.play_turns
+      end
     end
 
     it "switches player's turns after every move" do
