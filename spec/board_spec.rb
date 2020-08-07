@@ -48,7 +48,7 @@ describe Board do
           board.instance_variable_set(:@grid, board_arrangement)
 
           # Act
-          status = board.four_in_a_row?  
+          status = board.four_in_a_row?
 
           # Assert
           expect(status).to eq true
@@ -94,7 +94,6 @@ describe Board do
 
           # Assert
           expect(status).to eq true
-
         end
       end
     end
@@ -297,6 +296,30 @@ describe Board do
           # Assert
           expect(status).to be false
         end
+      end
+    end
+  end
+
+  describe '#tie?' do
+    context 'when board is full and no winners' do
+      it 'returns true' do
+        # Arrange
+        board_arrangment = [
+          ['r', 'r', 'b', 'r', 'b', 'r', 'b'],
+          ['b', 'b', 'r', 'r', 'b', 'r', 'b'],
+          ['b', 'b', 'b', 'r', 'r', 'b', 'r'],
+          ['r', 'r', 'r', 'b', 'b', 'r', 'b'],
+          ['r', 'r', 'b', 'r', 'r', 'b', 'b'],
+          ['b', 'r', 'r', 'b', 'b', 'r', 'b']
+        ]
+
+        board.instance_variable_set(:@grid, board_arrangment)
+
+        # Act
+        status = board.tie?
+
+        # Assert
+        expect(status).to eq true
       end
     end
   end
