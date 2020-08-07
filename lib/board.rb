@@ -27,7 +27,7 @@ class Board
   end
 
   def column_not_full?(column)
-    @grid.transpose[column].any? { |cell| cell == '' }
+    grid.transpose[column].any? { |cell| cell == '' }
   end
 
   def to_s
@@ -58,7 +58,7 @@ class Board
   private
 
   def cell(row, column)
-    @grid[row][column] if row.between?(0, 5) && column.between?(0, 6)
+    grid[row][column] if row.between?(0, 5) && column.between?(0, 6)
   end
 
   def find_neighbors(direction, row_index, column_index)
@@ -70,7 +70,7 @@ class Board
   end
 
   def perpendicular_win?(direction)
-    @grid.each_with_index.any? do |row, row_index|
+    grid.each_with_index.any? do |row, row_index|
       row.each.with_index.any? do |current_cell, column_index|
         neighbors = find_neighbors(direction, row_index, column_index)
 
@@ -80,7 +80,7 @@ class Board
   end
 
   def diagonal_win?
-    @grid.each.with_index.any? do |row, row_index|
+    grid.each.with_index.any? do |row, row_index|
       row.each.with_index.any? do |current_cell, column_index|
         DIAGONAL_SEARCH_DIRECTIONS.any? do |row_travel, column_travel|
           neighbors = [
@@ -96,7 +96,7 @@ class Board
   end
 
   def formatted_row(row)
-    row = @grid[row].map { |cell| cell == '' ? '  ' : "#{cell} " }
+    row = grid[row].map { |cell| cell == '' ? '  ' : "#{cell} " }
 
     " #{row[0]} | #{row[1]} | #{row[2]} | #{row[3]} | #{row[4]} | #{row[5]} | #{row[6]} "
   end

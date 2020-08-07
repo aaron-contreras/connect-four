@@ -6,6 +6,8 @@ require_relative './output.rb'
 class Game
   include Output
 
+  attr_reader :board
+
   def initialize
     @board = Board.new
   end
@@ -27,7 +29,7 @@ class Game
   end
 
   def game_over_message
-    if @board.four_in_a_row?
+    if board.four_in_a_row?
       "#{COLORS[:green]}#{@active_player.name} won, great job!#{CLEAR_FORMATTING}"
     else
       "#{COLORS[:yellow]}It's a draw!#{CLEAR_FORMATTING}"
@@ -35,20 +37,16 @@ class Game
   end
 
   def play_turns
-    puts @board
-
     loop do
       ask_for_player_move
 
-      move = obtain_move
-
-      @board.place_disc(@active_player.disc, move)
+      board.place_disc(@active_player.disc, obtain_move)
 
       clear_screen
 
-      puts @board
+      puts board
 
-      break if @board.four_in_a_row? || @board.tie?
+      break if board.four_in_a_row? || board.tie?
 
       switch_turns
     end
