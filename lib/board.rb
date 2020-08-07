@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
+require_relative './output.rb'
 # Represents the 7 x 6 board used in the game
 class Board
+  include Output
   attr_reader :grid
 
   DIAGONAL_SEARCH_DIRECTIONS = [[-1, -1], [-1, 1], [1, -1], [1, 1]].freeze
@@ -31,26 +33,25 @@ class Board
   end
 
   def to_s
-    square = "\e[47m  \e[0m"
     <<~BOARD
 
-        #{square * 20}
-        #{square}|==================================|#{square}
-        #{square}| \e[32m\u24b6    \u24b7    \u24b8    \u24b9    \u24ba    \u24bb    \u24bc\e[0m  |#{square}
-        #{square}|==================================|#{square}
-        #{square}|#{formatted_row(0)}|#{square}
-        #{square}|----+----+----+----+----+----+----|#{square}
-        #{square}|#{formatted_row(1)}|#{square}
-        #{square}|----+----+----+----+----+----+----|#{square}
-        #{square}|#{formatted_row(2)}|#{square}
-        #{square}|----+----+----+----+----+----+----|#{square}
-        #{square}|#{formatted_row(3)}|#{square}
-        #{square}|----+----+----+----+----+----+----|#{square}
-        #{square}|#{formatted_row(4)}|#{square}
-        #{square}|----+----+----+----+----+----+----|#{square}
-        #{square}|#{formatted_row(5)}|#{square}
-        #{square}|----+----+----+----+----+----+----|#{square}
-      #{square}#{square}#{square}                                #{square}#{square}#{square}
+        #{SQUARE * 20}
+        #{COLUMN_HEADING_DIVIDER}
+        #{COLUMN_HEADINGS}
+        #{COLUMN_HEADING_DIVIDER}
+        #{format_row(0)}
+        #{ROW_DIVIDER}
+        #{format_row(1)}
+        #{ROW_DIVIDER}
+        #{format_row(2)}
+        #{ROW_DIVIDER}
+        #{format_row(3)}
+        #{ROW_DIVIDER}
+        #{format_row(4)}
+        #{ROW_DIVIDER}
+        #{format_row(5)}
+        #{ROW_DIVIDER}
+      #{BOARD_FEET}#{' ' * SPACE_BETWEEN_FEET}#{BOARD_FEET}
 
     BOARD
   end
@@ -93,11 +94,5 @@ class Board
         end
       end
     end
-  end
-
-  def formatted_row(row)
-    row = grid[row].map { |cell| cell == '' ? '  ' : "#{cell} " }
-
-    " #{row[0]} | #{row[1]} | #{row[2]} | #{row[3]} | #{row[4]} | #{row[5]} | #{row[6]} "
   end
 end
