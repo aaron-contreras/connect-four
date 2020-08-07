@@ -23,6 +23,7 @@ loop do
 
   print "\e[2J"
   print "\e[H"
+  puts game.board
 
   game.play_turns
 
