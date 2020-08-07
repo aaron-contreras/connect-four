@@ -432,17 +432,17 @@ describe Board do
           #{square}|==================================|#{square}
           #{square}| \e[32m\u24b6    \u24b7    \u24b8    \u24b9    \u24ba    \u24bb    \u24bc\e[0m  |#{square}
           #{square}|==================================|#{square}
-          #{square}|    | #{player1} |    |    |    |    |    |#{square}
+          #{square}|    | #{player1}  |    |    |    |    |    |#{square}
           #{square}|----+----+----+----+----+----+----|#{square}
-          #{square}|    | #{player1} |    |    |    |    |    |#{square}
+          #{square}|    | #{player1}  |    |    |    |    |    |#{square}
           #{square}|----+----+----+----+----+----+----|#{square}
-          #{square}|    | #{player1} |    |    | #{player1} |    | #{player1} |#{square}
+          #{square}|    | #{player1}  |    |    | #{player1}  |    | #{player1}  |#{square}
           #{square}|----+----+----+----+----+----+----|#{square}
-          #{square}|    | #{player2} |    |    | #{player2} | #{player2} | #{player2} |#{square}
+          #{square}|    | #{player2}  |    |    | #{player2}  | #{player2}  | #{player2}  |#{square}
           #{square}|----+----+----+----+----+----+----|#{square}
-          #{square}|    | #{player2} | #{player1} |    | #{player2} | #{player1} | #{player1} |#{square}
+          #{square}|    | #{player2}  | #{player1}  |    | #{player2}  | #{player1}  | #{player1}  |#{square}
           #{square}|----+----+----+----+----+----+----|#{square}
-          #{square}|    | #{player2} | #{player2} | #{player2} | #{player2} | #{player1} | #{player1} |#{square}
+          #{square}|    | #{player2}  | #{player2}  | #{player2}  | #{player2}  | #{player1}  | #{player1}  |#{square}
           #{square}|----+----+----+----+----+----+----|#{square}
         #{square}#{square}#{square}                                #{square}#{square}#{square}
 
