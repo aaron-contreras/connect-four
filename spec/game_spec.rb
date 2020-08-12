@@ -23,7 +23,6 @@ describe Game do
     it 'creates 2 players' do
       # Arrange
       allow(game).to receive(:ask_for_player_name)
-      # allow(game).to receive(:print)
       allow(game).to receive(:gets).and_return('Aaron', 'Chad')
 
       # Act
@@ -37,7 +36,6 @@ describe Game do
     it 'gives a player the starting turn' do
       # Arrange
       allow(game).to receive(:ask_for_player_name)
-      # allow(game).to receive(:print)
       allow(game).to receive(:gets).and_return('Aaron', 'Chad')
 
       # Act
@@ -92,6 +90,7 @@ describe Game do
     context 'when game ends in a win' do
       it "loop until there's a winner" do
         # Arrange
+        allow(game).to receive(:system)
         allow(game).to receive(:puts)
         allow(game).to receive(:print)
         allow(game).to receive(:obtain_move).and_return(0, 1, 0, 1, 0, 1, 0)
@@ -109,6 +108,7 @@ describe Game do
 
     it "switches player's turns after every move" do
       # Arrange
+      allow(game).to receive(:system)
       allow(game).to receive(:print)
       allow(game).to receive(:puts)
       allow(game).to receive(:obtain_move).and_return(0, 1, 0, 1, 0, 1, 0)

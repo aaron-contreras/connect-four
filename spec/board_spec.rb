@@ -415,7 +415,7 @@ describe Board do
       # Arrange
       player1 = "\u{1f534}"
       player2 = "\u{1f535}"
-      square = "\e[47m  \e[0m"
+      square = '  '.colorize(background: :white)
       board_arrangement = [
         ['', player1, '', '', '', '', ''],
         ['', player1, '', '', '', '', ''],
