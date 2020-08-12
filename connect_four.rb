@@ -15,15 +15,14 @@ intro = <<~INTRO.green.bold
 INTRO
 
 loop do
-  print "\e[2J"
-  print "\e[H"
+  system 'clear'
 
   game = Game.new
   puts intro
   game.create_players
 
-  print "\e[2J"
-  print "\e[H"
+  system 'clear'
+
   puts game.board
 
   game.play_turns
@@ -37,5 +36,8 @@ loop do
     play_again = gets.chomp.strip.downcase
   end
 
-  break if play_again == 'n'
+  if play_again == 'n'
+    system 'clear'
+    break
+  end
 end
