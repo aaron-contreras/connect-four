@@ -9,6 +9,7 @@ describe Game do
   describe '#create_players' do
     it 'asks for a name until valid' do
       # Arrange
+      allow(game).to receive(:ask_for_player_name)
       allow(game).to receive(:print)
       allow(game).to receive(:gets).and_return('---(-=     ', 'Aaron contreras', '(pizzaboy34)', 'A1', '', 'Aaron', 'Chad')
 
@@ -21,7 +22,8 @@ describe Game do
 
     it 'creates 2 players' do
       # Arrange
-      allow(game).to receive(:print)
+      allow(game).to receive(:ask_for_player_name)
+      # allow(game).to receive(:print)
       allow(game).to receive(:gets).and_return('Aaron', 'Chad')
 
       # Act
@@ -34,7 +36,8 @@ describe Game do
 
     it 'gives a player the starting turn' do
       # Arrange
-      allow(game).to receive(:print)
+      allow(game).to receive(:ask_for_player_name)
+      # allow(game).to receive(:print)
       allow(game).to receive(:gets).and_return('Aaron', 'Chad')
 
       # Act
@@ -129,7 +132,7 @@ describe Game do
         # Arrange
         double('board', four_in_a_row?: false)
 
-        draw_message = "\e[33mIt's a draw!\e[0m"
+        draw_message = "It's a draw!"
 
         # Act
         actual_message = game.game_over_message
@@ -148,7 +151,7 @@ describe Game do
         player = double('player1', name: 'Aaron')
         game.instance_variable_set(:@active_player, player)
 
-        win_message = "\e[32mAaron won, great job!\e[0m"
+        win_message = 'Aaron won, great job!'
 
         # Act
         actual_message = game.game_over_message
