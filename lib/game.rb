@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'colorize'
 require_relative './board.rb'
 require_relative './output.rb'
 # A Connect-4 Game
@@ -30,9 +31,9 @@ class Game
 
   def game_over_message
     if board.four_in_a_row?
-      "#{COLORS[:green]}#{@active_player.name} won, great job!#{CLEAR_FORMATTING}"
+      "#{@active_player.name} won, great job!"
     else
-      "#{COLORS[:yellow]}It's a draw!#{CLEAR_FORMATTING}"
+      "It's a draw!"
     end
   end
 
@@ -55,9 +56,11 @@ class Game
   private
 
   def ask_for_player_name(player_number)
-    color = player_number == 1 ? COLORS[:red] : COLORS[:blue]
+    color = player_number == 1 ? :red : :blue
 
-    print "What is #{color}player #{player_number}'s#{CLEAR_FORMATTING} name? "
+    player = "player #{player_number}".send(color)
+
+    print "What is #{player}'s name? "
   end
 
   def obtain_name
@@ -66,7 +69,7 @@ class Game
 
       break name if name.match?(/^[\w]+$/)
 
-      print "#{COLORS[:red]}Please enter a valid name (Alphanumeric only, no spaces): #{CLEAR_FORMATTING}"
+      print 'Please enter a valid name (Alphanumeric only, no spaces): '.red
     end
   end
 
@@ -90,7 +93,7 @@ class Game
 
       clear_line_above
 
-      print "#{COLORS[:red]}Enter a valid column to drop your disc on (A-G): #{CLEAR_FORMATTING}"
+      print 'Enter a valid column to drop your disc on (A-G): '.red
     end
   end
 end
