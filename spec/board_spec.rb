@@ -430,7 +430,7 @@ describe Board do
 
           #{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}#{square}
           #{square}|==================================|#{square}
-          #{square}| \e[32m\u24b6    \u24b7    \u24b8    \u24b9    \u24ba    \u24bb    \u24bc\e[0m  |#{square}
+          #{square}| #{"\u24b6    \u24b7    \u24b8    \u24b9    \u24ba    \u24bb    \u24bc".green}  |#{square}
           #{square}|==================================|#{square}
           #{square}|    | #{player1}  |    |    |    |    |    |#{square}
           #{square}|----+----+----+----+----+----+----|#{square}
