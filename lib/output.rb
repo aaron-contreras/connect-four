@@ -1,23 +1,14 @@
 # frozen_string_literal: true
 
-# rubocop: disable Layout/LineLength
+require 'colorize'
 
 # Constants and methods for prettier terminal output
 module Output
   RED_DISC = "\u{1f534}"
   BLUE_DISC = "\u{1f535}"
 
-  COLORS = {
-    red: "\e[31m",
-    green: "\e[32m",
-    yellow: "\e[33m",
-    blue: "\e[34m"
-  }.freeze
-
-  CLEAR_FORMATTING = "\e[0m"
-
   def clear_screen
-    print "\e[2J\e[H"
+    system 'clear'
   end
 
   def clear_line_above
@@ -30,7 +21,7 @@ module Output
   ROWS = 6
   SPACE_BETWEEN_FEET = GRID_WIDTH - 2
 
-  SQUARE = "\e[47m  \e[0m"
+  SQUARE = '  '.colorize(background: :white)
 
   CIRCLED_LETTERS = {
     a: "\u24b6",
@@ -42,7 +33,7 @@ module Output
     g: "\u24bc"
   }.freeze
 
-  COLUMN_HEADINGS = "#{SQUARE}| #{COLORS[:green]}#{CIRCLED_LETTERS.map { |_k, v| v }.join(' ' * 4)}#{CLEAR_FORMATTING}  |#{SQUARE}"
+  COLUMN_HEADINGS = "#{SQUARE}| #{CIRCLED_LETTERS.map { |_k, v| v }.join(' ' * 4).green}  |#{SQUARE}"
 
   COLUMN_HEADING_DIVIDER = "#{SQUARE}|#{'=' * GRID_WIDTH}|#{SQUARE}"
   ROW_DIVIDER = "#{SQUARE}|#{COLUMNS.times.map { '----' }.join('+')}|#{SQUARE}"
@@ -53,4 +44,3 @@ module Output
     "#{SQUARE}| #{row} |#{SQUARE}"
   end
 end
-# rubocop: enable Layout/LineLength
